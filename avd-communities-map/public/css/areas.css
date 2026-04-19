@@ -1,0 +1,466 @@
+/*
+ * AVD Map Guide — Areas Embed Public CSS
+ * All brand values are CSS custom properties injected inline
+ * by the shortcode via wp_add_inline_style(). Edit them in:
+ * Appearance → AVD Map Guide → Settings → Areas Embed Style
+ *
+ * Default values here are fallbacks only — they will be overridden
+ * by the inline style block on any page that uses [avdc_areas].
+ */
+
+/* ── SCOPED RESET ─────────────────────────────────── */
+.avdc-areas,
+.avdc-areas *,
+.avdc-areas *::before,
+.avdc-areas *::after {
+  box-sizing: border-box;
+}
+.avdc-areas p,
+.avdc-areas h2,
+.avdc-areas ul,
+.avdc-areas li {
+  margin: 0;
+  padding: 0;
+}
+
+/* ── CSS VARIABLES (defaults — overridden by inline style) ── */
+.avdc-areas {
+  /* Brand */
+  --ae-accent:         #B87F0D;
+  --ae-accent-light:   #D4AF37;
+  --ae-dark:           #0C0C30;
+  --ae-left-bg:        #FFFFFF;
+  --ae-card-bg:        #1a1a40;
+
+  /* Left panel text */
+  --ae-eyebrow-color:  #B87F0D;
+  --ae-title-color:    #0C0C30;
+  --ae-subtitle-color: #58595B;
+  --ae-font-heading:   'Bricolage Grotesque', sans-serif;
+  --ae-font-body:      'IBM Plex Sans', -apple-system, sans-serif;
+
+  /* Card hover */
+  --ae-hover-bar:      #B87F0D;
+  --ae-hover-name:     #B87F0D;
+  --ae-arrow-hover-bg: #B87F0D;
+
+  /* CTA button */
+  --ae-cta-bg:         #B87F0D;
+  --ae-cta-text:       #0C0C30;
+  --ae-cta-bg-hover:   #D4AF37;
+
+  /* Map panel */
+  --ae-map-bg:         #0e0e2e;
+  --ae-map-city-color: #FFFFFF;
+}
+
+/* ── ROOT LAYOUT ──────────────────────────────────── */
+.avdc-areas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  font-family: var(--ae-font-body);
+  background: var(--ae-dark);
+  color: #FFFFFF;
+  position: relative;
+  z-index: 0;
+}
+
+/* ── LEFT PANEL ──────────────────────────────────── */
+.avdc-areas__left {
+  padding: 60px 48px 60px 60px;
+  display: flex;
+  flex-direction: column;
+  background: var(--ae-left-bg);
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+.avdc-areas__eyebrow {
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--ae-eyebrow-color);
+  margin-bottom: .75rem !important;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+.avdc-areas__eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--ae-eyebrow-color);
+  flex-shrink: 0;
+}
+
+.avdc-areas__title {
+  font-family: var(--ae-font-heading);
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -.02em;
+  color: var(--ae-title-color);
+  margin-bottom: .85rem !important;
+}
+.avdc-areas__title em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--ae-accent), var(--ae-accent-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.avdc-areas__subtitle {
+  font-size: .88rem;
+  color: var(--ae-subtitle-color);
+  line-height: 1.65;
+  max-width: 400px;
+  margin-bottom: 32px !important;
+}
+
+/* ── CARD GRID ───────────────────────────────────── */
+.avdc-areas__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  flex: 1;
+  align-content: start;
+}
+
+.avdc-areas__divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 2px;
+}
+.avdc-areas__divider span {
+  font-size: .58rem;
+  font-weight: 600;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(12, 12, 48, .35);
+  white-space: nowrap;
+}
+.avdc-areas__divider::before,
+.avdc-areas__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(12, 12, 48, .1);
+}
+
+/* ── PHOTO CARD ──────────────────────────────────── */
+.avdc-areas__card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 16 / 9;
+  background: var(--ae-card-bg);
+  display: block;
+}
+
+.avdc-areas__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(12,12,48,.92) 0%,
+    rgba(12,12,48,.35) 50%,
+    transparent 100%);
+  z-index: 1;
+  transition: background .4s;
+}
+.avdc-areas__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    transparent 0%,
+    rgba(var(--ae-accent-rgb, 184,127,13),.12) 50%,
+    transparent 100%);
+  opacity: 0;
+  z-index: 1;
+  transition: opacity .4s;
+}
+.avdc-areas__card:hover::before,
+.avdc-areas__card.avdc-active::before {
+  background: linear-gradient(to top,
+    rgba(12,12,48,.97) 0%,
+    rgba(12,12,48,.55) 55%,
+    rgba(12,12,48,.2)  100%);
+}
+.avdc-areas__card:hover::after,
+.avdc-areas__card.avdc-active::after { opacity: 1; }
+
+.avdc-areas__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+}
+.avdc-areas__card:hover .avdc-areas__bg,
+.avdc-areas__card.avdc-active .avdc-areas__bg {
+  transform: scale(1.06);
+}
+
+/* Gold sweep bar */
+.avdc-areas__bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ae-hover-bar), var(--ae-accent-light), transparent);
+  z-index: 3;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s ease;
+}
+.avdc-areas__card:hover .avdc-areas__bar,
+.avdc-areas__card.avdc-active .avdc-areas__bar { transform: scaleX(1); }
+
+/* Card label */
+.avdc-areas__label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 16px 18px;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.avdc-areas__name {
+  font-family: var(--ae-font-heading);
+  font-size: clamp(.8rem, 1.2vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  text-shadow: 0 1px 8px rgba(0,0,0,.5);
+  transition: color .3s;
+}
+.avdc-areas__card:hover .avdc-areas__name,
+.avdc-areas__card.avdc-active .avdc-areas__name { color: var(--ae-hover-name); }
+
+.avdc-areas__arrow {
+  width: 26px; height: 26px;
+  border: 1.5px solid rgba(255,255,255,.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .68rem;
+  color: rgba(255,255,255,.4);
+  transition: all .3s;
+  flex-shrink: 0;
+}
+.avdc-areas__card:hover .avdc-areas__arrow,
+.avdc-areas__card.avdc-active .avdc-areas__arrow {
+  border-color: var(--ae-accent);
+  color: var(--ae-accent);
+  background: rgba(184, 127, 13, 0.15); /* fallback — overridden by JS if accent changes */
+}
+
+/* ── RIGHT PANEL — MAP ───────────────────────────── */
+.avdc-areas__right {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.avdc-areas__map-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.avdc-areas__map {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background: var(--ae-map-bg);
+  display: block;
+}
+
+/* Mapbox GL canvas must fill its container */
+.avdc-areas__map .mapboxgl-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+.avdc-areas__map .mapboxgl-map {
+  width: 100%;
+  height: 100%;
+}
+/* Mapbox nav control positioning */
+.avdc-areas__map .mapboxgl-ctrl-bottom-right {
+  bottom: 2rem;
+  right: 1rem;
+}
+.avdc-areas__map .mapboxgl-ctrl-group {
+  background: rgba(12,12,48,.85);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.avdc-areas__map .mapboxgl-ctrl-group button {
+  background: transparent;
+  color: #fff;
+}
+.avdc-areas__map .mapboxgl-ctrl-group button + button {
+  border-top: 1px solid rgba(255,255,255,.15);
+}
+.avdc-areas__map .mapboxgl-ctrl-icon {
+  filter: invert(1);
+}
+/* Marker pulse transition */
+.avdc-mapbox-marker {
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+
+.avdc-areas__map-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  padding: 20px 24px;
+  background: linear-gradient(to bottom, rgba(12,12,48,.95) 0%, transparent 100%);
+  pointer-events: none;
+}
+.avdc-areas__map-city {
+  font-family: var(--ae-font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ae-map-city-color);
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: all .4s cubic-bezier(.25,.46,.45,.94);
+}
+.avdc-areas__map-city.avdc-vis { opacity: 1; transform: translateY(0); }
+
+.avdc-areas__map-bot {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 10;
+  padding: 18px 24px;
+  background: linear-gradient(to top, rgba(12,12,48,.97) 0%, transparent 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.avdc-areas__map-hint {
+  font-size: .7rem;
+  color: rgba(255,255,255,.3);
+}
+.avdc-areas__map-cta {
+  font-family: var(--ae-font-heading);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ae-cta-text);
+  background: var(--ae-cta-bg);
+  padding: .5rem 1.1rem;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.avdc-areas__map-cta:hover { background: var(--ae-cta-bg-hover); }
+
+/* Pulse pin */
+.avdc-areas__pin {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: none;
+}
+.avdc-areas__pin-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--ae-accent);
+  position: relative;
+  margin: 0 auto;
+}
+.avdc-areas__pin-dot::before,
+.avdc-areas__pin-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--ae-accent);
+  opacity: .6;
+  animation: avdc-pulse 1.6s ease-out infinite;
+}
+.avdc-areas__pin-dot::after { animation-delay: .55s; }
+@keyframes avdc-pulse {
+  0%   { opacity: .6; transform: scale(1); }
+  100% { opacity: 0;  transform: scale(2.6); }
+}
+
+/* Map placeholder */
+.avdc-areas__map-placeholder {
+  position: absolute;
+  inset: 0;
+  background: var(--ae-map-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .85rem;
+  text-align: center;
+  padding: 2rem;
+  z-index: 5;
+}
+.avdc-areas__map-placeholder p {
+  font-size: .82rem;
+  color: rgba(255,255,255,.3);
+  line-height: 1.6;
+  max-width: 260px;
+}
+.avdc-areas__map-placeholder code {
+  font-family: monospace;
+  font-size: .72rem;
+  background: rgba(255,255,255,.06);
+  padding: .3rem .75rem;
+  border-radius: 4px;
+  color: var(--ae-accent);
+  display: inline-block;
+}
+.avdc-ph-city {
+  font-family: var(--ae-font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ae-accent);
+  transition: all .35s;
+}
+.avdc-ph-icon { font-size: 2.5rem; opacity: .35; }
+
+/* Error notice */
+.avdc-no-areas {
+  background: #fff8e1;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-size: .88rem;
+  color: #5d4037;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 1024px) {
+  .avdc-areas { grid-template-columns: 1fr; }
+  .avdc-areas__left { min-height: auto; padding: 40px 24px; }
+  .avdc-areas__right { position: relative; height: 50vh; min-height: 320px; }
+  .avdc-areas__map-inner { height: 100%; }
+  .avdc-areas__map { min-height: 0; height: 100%; }
+}
+@media (max-width: 640px) {
+  .avdc-areas__grid { grid-template-columns: 1fr; }
+}
